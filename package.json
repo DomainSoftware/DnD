@@ -1,0 +1,32 @@
+{
+  "name": "github-dnd-text-adventure",
+  "version": "1.0.0",
+  "description": "A multi-player, multi-session text adventure game that runs entirely on GitHub using Issues and GitHub Actions",
+  "main": "src/engine.js",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0",
+    "start": "node src/turn-handler.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DomainSoftware/DnD.git"
+  },
+  "keywords": [
+    "dnd",
+    "dungeons-and-dragons",
+    "text-adventure",
+    "github-actions",
+    "game",
+    "multiplayer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DomainSoftware/DnD/issues"
+  },
+  "homepage": "https://github.com/DomainSoftware/DnD#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+

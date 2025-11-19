@@ -1,0 +1,67 @@
+name: Start New D&D Session
+
+on:
+  workflow_dispatch:
+    inputs:
+      session_name:
+        description: 'Name for this D&D session'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  create-session:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create session issue
+        id: create_issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `D&D Session – ${{ inputs.session_name }}`,
+              labels: ['dnd-session'],
+              body: `# Welcome to the Dungeon!\n\nThis is a text adventure. Use the following commands:\n\n- \`/look\` - View the map and your surroundings\n- \`/move north\` - Move north\n- \`/move south\` - Move south\n- \`/move east\` - Move east\n- \`/move west\` - Move west\n\nYour character will appear as \`@\` on the map. Other players appear as \`*\`.\n\nGood luck, adventurer!`
+            });
+            
+            console.log(`Created issue #${issue.data.number}`);
+            core.setOutput('issue_number', issue.data.number);
+            return issue.data.number;
+
+      - name: Initialize session state
+        env:
+          ISSUE_NUMBER: ${{ steps.create_issue.outputs.issue_number }}
+        run: |
+          mkdir -p state
+          cat > state/session-${ISSUE_NUMBER}.json << 'EOF'
+          {
+            "sessionId": ${ISSUE_NUMBER},
+            "turn": 1,
+            "map": [
+              "#####",
+              "#...#",
+              "#...#",
+              "#...#",
+              "#####"
+            ],
+            "players": {}
+          }
+          EOF
+
+      - name: Commit state file
+        env:
+          ISSUE_NUMBER: ${{ steps.create_issue.outputs.issue_number }}
+        run: |
+          git config user.name "D&D Game Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/session-${ISSUE_NUMBER}.json
+          git commit -m "Initialize session #${ISSUE_NUMBER}"
+          git push
