@@ -7,38 +7,58 @@ on:
         description: 'Name for this D&D session'
         required: true
         type: string
+  issues:
+    types: [opened, labeled]
 
 permissions:
   contents: write
   issues: write
 
 jobs:
-  create-session:
+  start_session:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'issues' &&
+        contains(github.event.issue.labels.*.name, 'dnd-new-session')
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create session issue
-        id: create_issue
+      - name: Determine issue number and session name
+        id: get_issue
         uses: actions/github-script@v7
         with:
           script: |
-            const issue = await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `D&D Session – ${{ inputs.session_name }}`,
-              labels: ['dnd-session'],
-              body: `# Welcome to the Dungeon!\n\nThis is a text adventure. Use the following commands:\n\n- \`/look\` - View the map and your surroundings\n- \`/move north\` - Move north\n- \`/move south\` - Move south\n- \`/move east\` - Move east\n- \`/move west\` - Move west\n\nYour character will appear as \`@\` on the map. Other players appear as \`*\`.\n\nGood luck, adventurer!`
-            });
+            let issueNumber;
+            let sessionName;
             
-            console.log(`Created issue #${issue.data.number}`);
-            core.setOutput('issue_number', issue.data.number);
-            return issue.data.number;
+            if (context.eventName === 'workflow_dispatch') {
+              // Create a new issue for workflow_dispatch
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `D&D Session – ${{ inputs.session_name }}`,
+                labels: ['dnd-session'],
+                body: `# Welcome to the Dungeon!\n\nThis is a text adventure. Use the following commands:\n\n- \`/look\` - View the map and your surroundings\n- \`/move north\` - Move north\n- \`/move south\` - Move south\n- \`/move east\` - Move east\n- \`/move west\` - Move west\n\nYour character will appear as \`@\` on the map. Other players appear as \`*\`.\n\nGood luck, adventurer!`
+              });
+              issueNumber = issue.data.number;
+              sessionName = '${{ inputs.session_name }}';
+            } else {
+              // Use the existing issue that triggered this workflow
+              issueNumber = context.issue.number;
+              sessionName = context.payload.issue.title;
+            }
+            
+            console.log(`Using issue #${issueNumber} for session "${sessionName}"`);
+            core.setOutput('issue_number', issueNumber);
+            core.setOutput('session_name', sessionName);
 
       - name: Initialize session state
         env:
-          ISSUE_NUMBER: ${{ steps.create_issue.outputs.issue_number }}
+          ISSUE_NUMBER: ${{ steps.get_issue.outputs.issue_number }}
         run: |
           mkdir -p state
           cat > state/session-${ISSUE_NUMBER}.json << 'EOF'
@@ -58,10 +78,45 @@ jobs:
 
       - name: Commit state file
         env:
-          ISSUE_NUMBER: ${{ steps.create_issue.outputs.issue_number }}
+          ISSUE_NUMBER: ${{ steps.get_issue.outputs.issue_number }}
         run: |
           git config user.name "D&D Game Bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add state/session-${ISSUE_NUMBER}.json
           git commit -m "Initialize session #${ISSUE_NUMBER}"
           git push
+
+      - name: Update issue labels and add comment
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        env:
+          ISSUE_NUMBER: ${{ steps.get_issue.outputs.issue_number }}
+        with:
+          script: |
+            const issueNumber = parseInt(process.env.ISSUE_NUMBER);
+            
+            // Remove dnd-new-session label and add dnd-session label
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              name: 'dnd-new-session'
+            }).catch(() => {
+              // Label might not exist, that's okay
+            });
+            
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['dnd-session']
+            });
+            
+            // Post welcome comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `# Welcome to the Dungeon!\n\nThis issue is now an active D&D text adventure session! 🎲\n\n## How to Play\n\nUse the following commands in the comments:\n\n- \`/look\` - View the map and your surroundings\n- \`/move north\` - Move north\n- \`/move south\` - Move south\n- \`/move east\` - Move east\n- \`/move west\` - Move west\n\n## Map Legend\n\n- \`@\` - Your character\n- \`*\` - Other players in this session\n- \`.\` - Floor (walkable)\n- \`#\` - Wall (blocked)\n\n## Multiplayer\n\nMultiple people can join this session! Just post a command in the comments and you'll automatically be added as a player.\n\nGood luck, adventurer!`
+            });
+

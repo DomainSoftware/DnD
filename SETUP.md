@@ -29,6 +29,15 @@ git push origin main
 
 ### 4. Start Your First Game Session
 
+**Using GitHub Copilot (Recommended):**
+
+Simply ask in the Copilot Chat:
+```
+@github Start a new D&D session called "Test Game"
+```
+
+**Or via GitHub Actions UI:**
+
 1. Go to the **Actions** tab
 2. Click **Start New D&D Session** in the left sidebar
 3. Click **Run workflow** (green button on the right)
@@ -63,6 +72,30 @@ The game bot will respond to each command with a map showing your position!
 
 Share the issue link with friends. When they comment with commands, they'll automatically join your session and appear on the map as `*`.
 
+## Using the GitHub MCP Server
+
+The `.vscode/mcp.json` file is already configured to work with GitHub Copilot's MCP endpoints. This allows you to:
+
+- Start new game sessions via Copilot Chat
+- Manage GitHub workflows naturally
+- Interact with your repository through conversation
+
+No additional setup needed - it uses GitHub Copilot's built-in GitHub integration!
+
+### Example Copilot Commands:
+
+```
+@github Start a new D&D session called "Friday Night Adventure"
+```
+
+```
+@github List all issues labeled dnd-session
+```
+
+```
+@github Show me recent workflow runs
+```
+
 ## Troubleshooting
 
 ### Actions aren't running?
@@ -77,22 +110,6 @@ Share the issue link with friends. When they comment with commands, they'll auto
 ### Can't see the map?
 - The state file needs to exist first. Make sure the "Start New D&D Session" workflow completed successfully
 - Check the `state/` folder for a `session-<number>.json` file
-
-## Testing Locally (Optional)
-
-You can test the game engine locally before pushing to GitHub:
-
-```bash
-# Create a test state file
-mkdir -p state
-echo '{"sessionId":1,"turn":1,"map":["#####","#...#","#...#","#...#","#####"],"players":{}}' > state/session-1.json
-
-# Test the look command
-SESSION_ID=1 COMMENTER=testuser COMMAND="/look" node src/turn-handler.js
-
-# Test a move command
-SESSION_ID=1 COMMENTER=testuser COMMAND="/move north" node src/turn-handler.js
-```
 
 ## What's Next?
 

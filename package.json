@@ -4,8 +4,7 @@
   "description": "A multi-player, multi-session text adventure game that runs entirely on GitHub using Issues and GitHub Actions",
   "main": "src/engine.js",
   "scripts": {
-    "test": "echo \"No tests yet\" && exit 0",
-    "start": "node src/turn-handler.js"
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -29,4 +28,3 @@
     "node": ">=20.0.0"
   }
 }
-

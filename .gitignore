@@ -1,17 +1,13 @@
-# Node modules
+# Node modules (not needed for this project)
 node_modules/
-
-# Session state files (tracked by git, but good to have pattern)
-# state/*.json
-# Note: We actually DO want to commit state files for this project
-# since the game state lives in the repo
 
 # OS files
 .DS_Store
 Thumbs.db
 
 # IDE files
-.vscode/
+.vscode/*
+!.vscode/mcp.json
 .idea/
 *.swp
 *.swo
