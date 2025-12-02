@@ -1,0 +1,39 @@
+name: Post DM Event Comment
+
+on:
+  workflow_dispatch:
+    inputs:
+      session_number:
+        description: 'Session/Issue number'
+        required: true
+        type: number
+      comment_file:
+        description: 'Path to comment JSON file'
+        required: true
+        default: 'dm-comment.json'
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  post-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Post DM comment to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commentData = require('./${{ inputs.comment_file }}');
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ inputs.session_number }},
+              body: commentData.comment_body
+            });
+            
+            console.log('✅ Dungeon Master event comment posted successfully!');
