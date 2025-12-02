@@ -18,12 +18,13 @@
   "encounters": [
     {
       "type": "death_trap",
-      "position": { "x": 2, "y": 1 },
+      "position": {
+        "x": 2,
+        "y": 1
+      },
       "triggered": true,
       "description": "Hidden blade trap - instantly fatal"
     }
   ],
-  "dmEvents": [
-    "🎲 **The Dungeon Master stirs...**\n\nAs **ssuing8825** steps confidently northward, a barely audible *click* echoes through the stone chamber. Time seems to freeze.\n\nSuddenly, with a sickening *SHHHHINK*, a massive serrated blade swings down from the ceiling! The ancient trap, hidden for centuries, springs to life with terrifying precision.\n\nThe blade strikes true. **ssuing8825** doesn't even have time to cry out before collapsing to the cold dungeon floor. A dark crimson pool spreads rapidly across the ancient stones, seeping into the cracks between the flagstones. The metallic scent of blood fills the chamber as the blade retracts silently back into the darkness above.\n\nThe dungeon claims another victim.\n\n**Current Game State:**\n```\n#####\n#.B.#  (B = Blood pool where ssuing8825 fell)\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- **ssuing8825** has fallen to a hidden blade trap\n- A pool of blood marks the location at (2, 1)\n- The trap has been triggered and is now visible\n- Player status: DECEASED\n- Death occurred on turn 3\n\n**The chamber falls silent once more, save for the slow dripping of blood...**\n\n---\n*\"The dice have spoken, and fate shows no mercy to the unwary. Even the bravest adventurer can fall to a trap unseen!\"* ⚔️💀"
-  ]
+  "dmEvents": []
 }
