@@ -3,10 +3,46 @@
   "turn": 1,
   "map": [
     "#####",
+    "#.G.#",
     "#...#",
-    "#...#",
-    "#...#",
+    "#.C.#",
     "#####"
   ],
-  "players": {}
+  "players": {},
+  "encounters": [
+    {
+      "type": "goblin",
+      "name": "Sneaky Goblin Scout",
+      "position": { "x": 2, "y": 1 },
+      "hp": 7,
+      "hostile": true,
+      "description": "A grotesque goblin with yellow eyes and jagged teeth, clutching a rusty dagger"
+    }
+  ],
+  "items": [
+    {
+      "name": "Ancient Treasure Chest",
+      "position": { "x": 2, "y": 3 },
+      "locked": false,
+      "contents": [
+        {
+          "name": "Potion of Minor Healing",
+          "description": "A shimmering red potion that restores 2d4+2 HP"
+        },
+        {
+          "name": "Gold Coins",
+          "quantity": 25,
+          "description": "Gleaming gold pieces stamped with an ancient dragon symbol"
+        }
+      ]
+    }
+  ],
+  "lore": [
+    "The walls are carved with ancient runes that pulse with a faint blue glow",
+    "You hear the distant echo of dripping water somewhere in the darkness",
+    "The air smells of damp stone and something... otherworldly"
+  ],
+  "events": [
+    "Turn 1: The Dungeon Master conjures a dramatic opening - A goblin appears in the northern chamber!"
+  ]
 }
