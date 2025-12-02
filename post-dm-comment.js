@@ -50,7 +50,15 @@ async function postComment() {
       res.on('end', () => {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           console.log('✅ DM comment posted successfully!');
-          console.log(`Comment URL: ${JSON.parse(responseData).html_url}`);
+          try {
+            const parsed = JSON.parse(responseData);
+            if (parsed.html_url) {
+              console.log(`Comment URL: ${parsed.html_url}`);
+            }
+          } catch (e) {
+            // Response might not be JSON or might not have html_url
+            console.log('Response:', responseData);
+          }
           resolve(responseData);
         } else {
           console.error(`❌ Failed to post comment. Status: ${res.statusCode}`);

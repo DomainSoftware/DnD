@@ -95,10 +95,3 @@ gh workflow run post-dm-event.yml --repo DomainSoftware/DnD -f session_number=5
 
 ### Option 3: Manual
 Copy the comment text above and post it manually to Issue #5.
-
-## Files Created
-- `dm-comment-text.txt` - Plain text comment (easy to copy/paste)
-- `dm-comment.json` - JSON format of the comment
-- `post-dm-comment.js` - Node.js script to post the comment (requires GITHUB_TOKEN)
-- `.github/workflows/post-dm-event.yml` - GitHub Actions workflow to post DM events
-- This README file
