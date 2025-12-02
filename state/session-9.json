@@ -4,9 +4,27 @@
   "map": [
     "#####",
     "#...#",
-    "#...#",
+    "#.T.#",
     "#...#",
     "#####"
   ],
-  "players": {}
+  "players": {},
+  "features": {
+    "torch": {
+      "position": { "x": 2, "y": 2 },
+      "symbol": "T",
+      "description": "A flickering torch mounted on the wall, casting dancing shadows"
+    }
+  },
+  "atmosphere": {
+    "setting": "A damp stone chamber deep beneath forgotten ruins",
+    "ambience": "The air is thick with the smell of ancient dust and dampness. Water drips somewhere in the darkness beyond your torch's reach.",
+    "mood": "mysterious"
+  },
+  "events": [
+    "Turn 1: The DM has prepared this dungeon for brave adventurers"
+  ],
+  "lore": [
+    "This chamber appears to be part of an ancient underground complex, long abandoned and forgotten by the world above."
+  ]
 }
