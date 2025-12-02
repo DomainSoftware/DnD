@@ -36,13 +36,17 @@
   ],
   "quests": [
     {
-      "id": "mysterious_key",
+      "id": "eastern_door_mystery",
       "title": "The Locked Door",
       "description": "Gribble mentioned a locked door to the east. Perhaps his mysterious key fits?",
       "status": "available"
     }
   ],
   "events": [
-    "Turn 4: DM Event - Gribble the Goblin Merchant appears!"
+    {
+      "turn": 4,
+      "type": "dm_event",
+      "description": "Gribble the Goblin Merchant appears!"
+    }
   ]
 }
