@@ -1,9 +1,9 @@
 {
   "sessionId": 2,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
-    "#...#",
+    "#T..#",
     "#...#",
     "#...#",
     "#####"
@@ -11,7 +11,25 @@
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 1
+      "y": 1,
+      "hp": 2,
+      "maxHp": 10,
+      "status": "bleeding",
+      "inventory": []
     }
-  }
+  },
+  "encounters": [
+    {
+      "type": "spike_trap",
+      "position": { "x": 1, "y": 1 },
+      "triggered": true,
+      "damage": 8,
+      "description": "A hidden spike trap with rust-covered blades"
+    }
+  ],
+  "events": [
+    "Turn 3: Player ssuing8825 moved north into position (2,1)",
+    "Turn 4: DM EVENT - ssuing8825 triggered a spike trap! The floor gave way beneath their feet, sending them plummeting onto a bed of wickedly sharp, rust-covered spikes. Blood pools beneath them as they struggle to pull themselves free, their screams echoing through the ancient dungeon. They've taken 8 points of grievous damage and are bleeding profusely (HP: 2/10)."
+  ],
+  "dmNotes": "Gruesome spike trap encounter - player barely survived. The rust on the spikes suggests potential infection if not treated. Blood trail will attract predators."
 }
