@@ -1,0 +1,70 @@
+name: DM Event Handler
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  process-dm-event:
+    # Only run if the issue has the dnd-session label and contains DM event markers
+    if: |
+      contains(github.event.issue.labels.*.name, 'dnd-session') &&
+      contains(github.event.issue.body, '<!-- DM_EVENT_START -->')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract and post DM event
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body;
+            
+            // Extract content between markers
+            const startMarker = '<!-- DM_EVENT_START -->';
+            const endMarker = '<!-- DM_EVENT_END -->';
+            
+            const startIndex = issueBody.indexOf(startMarker);
+            const endIndex = issueBody.indexOf(endMarker);
+            
+            if (startIndex === -1 || endIndex === -1) {
+              console.log('No DM event markers found');
+              return;
+            }
+            
+            // Extract the DM narrative
+            const dmNarrative = issueBody.substring(
+              startIndex + startMarker.length,
+              endIndex
+            ).trim();
+            
+            if (!dmNarrative) {
+              console.log('DM narrative is empty');
+              return;
+            }
+            
+            console.log('Found DM narrative:', dmNarrative);
+            
+            // Post the narrative as a comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: dmNarrative
+            });
+            
+            console.log('Posted DM narrative as comment');
+            
+            // Remove the markers and content from the issue description
+            const cleanedBody = issueBody.substring(0, startIndex).trim();
+            
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: cleanedBody
+            });
+            
+            console.log('Cleaned issue description');

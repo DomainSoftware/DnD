@@ -167,11 +167,48 @@ When you modify the game state and create DM events:
 3. **Add your modifications** (encounters, items, map changes, etc.)
 4. **Write back valid JSON** to the state file
 5. **Commit to the repository** with a descriptive message like "DM Event: Goblin encounter added"
-6. **POST A COMMENT TO THE ISSUE** - As a GitHub Copilot agent, you have the ability to add comments to issues. Simply create a comment with your narrative.
+6. **ADD YOUR NARRATIVE TO THE ISSUE DESCRIPTION** - Since you cannot directly comment, append your narrative to the issue description using a special marker
 
-### How to Post Comments
+### How to Post Your Narrative
 
-As a GitHub Copilot agent assigned to this issue, you can **directly add comments to the issue**. Simply compose your narrative comment following the format below and post it.
+**IMPORTANT WORKAROUND**: You cannot directly add comments to issues, so instead:
+
+1. **Update the issue description** by appending your narrative with these special markers:
+   ```
+   <!-- DM_EVENT_START -->
+   [Your narrative comment here]
+   <!-- DM_EVENT_END -->
+   ```
+
+2. This will trigger a workflow that automatically:
+   - Extracts the text between the markers
+   - Posts it as a proper comment
+   - Removes the markers from the description
+
+### Issue Update Format
+
+When you update the issue, append this to the **end of the description**:
+
+```markdown
+<!-- DM_EVENT_START -->
+🎲 **The Dungeon Master stirs...**
+
+[Dramatic narrative description of the event]
+
+**Current Game State:**
+```
+[ASCII map or relevant state visualization]
+```
+
+**What Changed:**
+- [List of modifications you made]
+
+---
+*[Whimsical D&D saying or quote]*
+<!-- DM_EVENT_END -->
+```
+
+The workflow will automatically convert this to a comment within seconds.
 
 ### Comment Format
 
@@ -315,11 +352,16 @@ When assigned to an issue, always:
 ✅ Create engaging, D&D-appropriate content  
 ✅ Modify state files carefully  
 ✅ Commit your changes to the repository  
-✅ **POST A COMMENT to the issue with the narrative and results**  
+✅ **UPDATE THE ISSUE DESCRIPTION** with your narrative wrapped in `<!-- DM_EVENT_START -->` and `<!-- DM_EVENT_END -->` markers  
 ✅ **END WITH A WHIMSICAL D&D SAYING**  
 ✅ Enhance the player experience  
 
-**THE COMMENT IS CRITICAL** - Without it, players won't know what you did! The issue comments are the event log and story of the game. Every DM action must be visible to the players through a comment.
+**THE ISSUE DESCRIPTION UPDATE IS CRITICAL** - The markers trigger a workflow that posts your narrative as a comment. Without the markers, players won't see your events! Always use:
+```
+<!-- DM_EVENT_START -->
+[Your narrative]
+<!-- DM_EVENT_END -->
+```
 
 Roll for initiative, Dungeon Master! 🎲🐉
 - Something is coming...
