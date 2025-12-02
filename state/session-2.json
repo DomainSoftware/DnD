@@ -1,6 +1,6 @@
 {
   "sessionId": 2,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
     "#...#",
@@ -11,7 +11,38 @@
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 1
+      "y": 1,
+      "hp": 10,
+      "inventory": ["torch", "rusty dagger"]
     }
-  }
+  },
+  "npcs": [
+    {
+      "name": "Gribble the Goblin Merchant",
+      "position": {
+        "x": 3,
+        "y": 1
+      },
+      "type": "merchant",
+      "hostile": false,
+      "dialogue": "Psst! Need any wares, adventurer? I've got trinkets from all over the dungeon!",
+      "inventory": ["healing potion", "mysterious key", "rope"]
+    }
+  ],
+  "lore": [
+    "Ancient runes on the northern wall glow faintly with blue light",
+    "The air smells of moss and old stone",
+    "Faint scratching sounds echo from deeper within"
+  ],
+  "quests": [
+    {
+      "id": "mysterious_key",
+      "title": "The Locked Door",
+      "description": "Gribble mentioned a locked door to the east. Perhaps his mysterious key fits?",
+      "status": "available"
+    }
+  ],
+  "events": [
+    "Turn 4: DM Event - Gribble the Goblin Merchant appears!"
+  ]
 }
