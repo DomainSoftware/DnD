@@ -22,33 +22,28 @@ jobs:
           script: |
             const fs = require('fs').promises;
             const path = require('path');
+            const glob = require('glob');
             
-            // Get all state files that were added or modified in the push
-            const stateFiles = context.payload.commits
-              .flatMap(commit => [
-                ...(commit.added || []),
-                ...(commit.modified || [])
-              ])
-              .filter(file => file.startsWith('state/session-') && file.endsWith('.json'));
+            // Since the workflow is already filtered by paths, just check all state files
+            // that exist and have pending dmEvents
+            const stateFiles = glob.sync('state/session-*.json');
             
-            // Remove duplicates (in case a file was added then modified in same push)
-            const modifiedFiles = [...new Set(stateFiles)];
-            
-            if (modifiedFiles.length === 0) {
-              console.log('No state files modified');
+            if (stateFiles.length === 0) {
+              console.log('No state files found');
               return;
             }
             
-            console.log('Modified state files:', modifiedFiles);
+            console.log(`Checking ${stateFiles.length} state file(s) for DM events`);
             
-            // Process each modified state file
-            for (const stateFilePath of modifiedFiles) {
+            let processedCount = 0;
+            
+            // Process each state file
+            for (const stateFilePath of stateFiles) {
               // Extract session ID from filename
               const sessionMatch = stateFilePath.match(/session-(\d+)\.json/);
               if (!sessionMatch) continue;
               
               const sessionId = parseInt(sessionMatch[1]);
-              console.log(`Processing session ${sessionId}`);
               
               // Read the state file
               const stateContent = await fs.readFile(stateFilePath, 'utf8');
@@ -56,7 +51,6 @@ jobs:
               
               // Check if there are pending DM events
               if (!state.dmEvents || state.dmEvents.length === 0) {
-                console.log(`No DM events for session ${sessionId}`);
                 continue;
               }
               
@@ -83,6 +77,13 @@ jobs:
                 'utf8'
               );
               console.log(`Cleared dmEvents for session ${sessionId}`);
+              processedCount++;
+            }
+            
+            if (processedCount === 0) {
+              console.log('No state files had pending DM events');
+            } else {
+              console.log(`Processed DM events from ${processedCount} session(s)`);
             }
 
       - name: Commit cleared DM events
