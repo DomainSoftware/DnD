@@ -36,9 +36,12 @@ Each session has a state file at `state/session-<issue-number>.json` with this s
   ],
   "players": {
     "username": { "x": 2, "y": 2 }
-  }
+  },
+  "dmEvents": []
 }
 ```
+
+The `dmEvents` array is where you write your narratives. When you commit changes to the state file, a workflow automatically posts all events in `dmEvents` as issue comments, then clears the array.
 
 ### When Assigned to an Issue
 
@@ -46,34 +49,29 @@ Each session has a state file at `state/session-<issue-number>.json` with this s
 2. **Load the session state file** from `state/session-<issue-number>.json`
 3. **Analyze the situation** - What are players doing? Where are they on the map?
 4. **Create an appropriate event** based on the context
-5. **Update the state file** with your changes (encounters, loot, map modifications, etc.)
+5. **Update the state file** with:
+   - Your game changes (encounters, loot, map modifications, etc.)
+   - Add your narrative to the `dmEvents` array
 6. **Commit the state file changes** to the repository
-7. **Update the issue description** to post your narrative (see below for format)
+7. The workflow will automatically post your narrative as a comment
 
 ### How to Post Your Narrative
 
-**IMPORTANT**: To communicate events to players, append your narrative to the issue description using these special markers:
+Simply add your formatted narrative to the `dmEvents` array in the state file:
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
-
-[Dramatic narrative description of the event]
-
-**Current Game State:**
-```
-[ASCII map or relevant state visualization]
-```
-
-**What Changed:**
-- [List of modifications you made]
-
----
-*[Whimsical D&D saying or quote]*
-<!-- DM_EVENT_END -->
+```json
+{
+  "sessionId": 1,
+  "turn": 16,
+  "map": [...],
+  "players": {...},
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\n[Your dramatic narrative]\n\n**Current Game State:**\n```\n[ASCII map]\n```\n\n**What Changed:**\n- [List of changes]\n\n---\n*[Whimsical D&D saying]*"
+  ]
+}
 ```
 
-A workflow will automatically extract this and post it as a comment for players to see, then clean up the description.
+When you commit this file, the workflow automatically posts each event as a comment and clears the array.
 
 ### Whimsical Sayings Examples:
 
@@ -95,63 +93,49 @@ A workflow will automatically extract this and post it as a comment for players 
 When assigned, you might:
 - Update the state to add an `encounters` array with monster data
 - Modify the map to show the goblin's position with 'G'
+- Add your narrative to `dmEvents`
 - Commit the changes
-- **Update issue description with markers:**
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
+The state file would look like:
 
-As you explore the shadowy corridors, a guttural growl echoes off the stone walls. From the northern passage, a grotesque goblin emerges, its yellow eyes gleaming with malice!
-
-**Current Game State:**
-```
-#####
-#.G.#
-#.@.#
-#...#
-#####
-```
-
-**What Changed:**
-- Added hostile goblin at position (2, 1)
-- Goblin has 5 HP and will attack on sight
-- Added encounter to game state
-
----
-*"In the darkness of the dungeon, danger lurks at every turn. Roll for initiative, brave adventurer!"* ⚔️
-<!-- DM_EVENT_END -->
+```json
+{
+  "sessionId": 1,
+  "turn": 16,
+  "map": [
+    "#####",
+    "#.G.#",
+    "#.@.#",
+    "#...#",
+    "#####"
+  ],
+  "players": {
+    "alice": { "x": 2, "y": 2 }
+  },
+  "encounters": [
+    { "type": "goblin", "position": { "x": 2, "y": 1 }, "hp": 5 }
+  ],
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nAs you explore the shadowy corridors, a guttural growl echoes off the stone walls. From the northern passage, a grotesque goblin emerges, its yellow eyes gleaming with malice!\n\n**Current Game State:**\n```\n#####\n#.G.#\n#.@.#\n#...#\n#####\n```\n\n**What Changed:**\n- Added hostile goblin at position (2, 1)\n- Goblin has 5 HP and will attack on sight\n- Added encounter to game state\n\n---\n*\"In the darkness of the dungeon, danger lurks at every turn. Roll for initiative, brave adventurer!\"* ⚔️"
+  ]
+}
 ```
 
 ### 2. Add Environmental Storytelling
 
 - Update state to add a `secrets` or `lore` field
 - Update map to mark special locations
-- **Update issue description with markers:**
+- Add your narrative to `dmEvents`
+- Commit the changes
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
+The state file would include:
 
-Your torchlight flickers across the ancient walls, revealing intricate runes that pulse with an eerie magical glow. The air grows cold, and you sense something hidden here—a secret waiting to be uncovered.
-
-**Current Game State:**
-```
-#####
-#.@*#  (* = magical rune)
-#...#
-#...#
-#####
-```
-
-**What Changed:**
-- Added magical rune location at (3, 1)
-- Added lore entry: "Ancient protective ward"
-- Players can investigate with `/examine` command
-
----
-*"Magic is woven into the very stones of this place. What mysteries await those brave enough to seek them?"* ✨
-<!-- DM_EVENT_END -->
+```json
+{
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nYour torchlight flickers across the ancient walls, revealing intricate runes that pulse with an eerie magical glow. The air grows cold, and you sense something hidden here—a secret waiting to be uncovered.\n\n**Current Game State:**\n```\n#####\n#.@*#  (* = magical rune)\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- Added magical rune location at (3, 1)\n- Added lore entry: \"Ancient protective ward\"\n- Players can investigate with `/examine` command\n\n---\n*\"Magic is woven into the very stones of this place. What mysteries await those brave enough to seek them?\"* ✨"
+  ]
+}
 ```
 
 ### 3. Create Consequences
@@ -193,8 +177,8 @@ When you modify the state file:
 1. **Preserve existing data** - Don't remove player positions or core game state
 2. **Add new fields** as needed - `encounters`, `npcs`, `quests`, `items`, `events`
 3. **Increment turn counter** if appropriate
-4. **Commit changes** with descriptive messages like "DM Event: Goblin encounter added"
-5. **Update the issue description** with your narrative using the marker format
+4. **Add your narrative** to the `dmEvents` array (it will be posted automatically)
+5. **Commit changes** with descriptive messages like "DM Event: Goblin encounter added"
 
 ### Example Enhanced State:
 
@@ -222,6 +206,9 @@ When you modify the state file:
   ],
   "events": [
     "Turn 16: Goblin encounter triggered by DM"
+  ],
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nAs you explore the shadowy corridors, a grotesque goblin emerges!\n\n**Current Game State:**\n```\n#####\n#.G.#\n#.@.#\n#...#\n#####\n```\n\n**What Changed:**\n- Added hostile goblin at position (2, 1)\n- Goblin has 5 HP\n\n---\n*\"Roll for initiative, brave adventurer!\"* ⚔️"
   ]
 }
 ```
@@ -248,31 +235,17 @@ When you modify the state file:
 **Action**: 
 1. Add mysterious sounds to the state
 2. Update turn counter
-3. Commit changes
-4. **Update issue description with markers:**
+3. Add narrative to `dmEvents`
+4. Commit changes
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
+The state file would include:
 
-The torches along the wall suddenly flicker and dim. In the oppressive silence that follows, you hear it—footsteps, slow and deliberate, echoing from somewhere deeper in the dungeon. The sound stops. Then starts again. Closer this time.
-
-**Current Game State:**
-```
-#####
-#@..#
-#...#
-#...#
-#####
-```
-
-**What Changed:**
-- Added ambient event: "Mysterious footsteps"
-- Something is coming...
-
----
-*"Listen carefully, for the dungeon speaks to those who pay attention!"* 👂
-<!-- DM_EVENT_END -->
+```json
+{
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nThe torches along the wall suddenly flicker and dim. In the oppressive silence that follows, you hear it—footsteps, slow and deliberate, echoing from somewhere deeper in the dungeon. The sound stops. Then starts again. Closer this time.\n\n**Current Game State:**\n```\n#####\n#@..#\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- Added ambient event: \"Mysterious footsteps\"\n- Something is coming...\n\n---\n*\"Listen carefully, for the dungeon speaks to those who pay attention!\"* 👂"
+  ]
+}
 ```
 
 ### Scenario 2: Reward Discovery
@@ -280,32 +253,17 @@ The torches along the wall suddenly flicker and dim. In the oppressive silence t
 **Action**: 
 1. Add items to player inventory in state
 2. Add gold counter
-3. Commit changes
-4. **Update issue description with markers:**
+3. Add narrative to `dmEvents`
+4. Commit changes
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
+The state file would include:
 
-With a satisfying CLICK, the ancient mechanism releases! The stone door swings open with a groan, revealing a small chamber. Inside, illuminated by your torchlight, sits an ornate wooden chest. You lift the lid to find it filled with gleaming gold coins and a glass vial containing a shimmering red liquid!
-
-**Current Game State:**
-```
-#####
-#@C.#  (C = opened chest)
-#...#
-#...#
-#####
-```
-
-**What Changed:**
-- Added 50 gold pieces to your inventory
-- Found: Potion of Healing (restores 2d4+2 HP)
-- Chest has been looted and marked
-
----
-*"Treasure is its own reward, but healing potions? Those are survival!"* 💰
-<!-- DM_EVENT_END -->
+```json
+{
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nWith a satisfying CLICK, the ancient mechanism releases! The stone door swings open with a groan, revealing a small chamber. Inside, illuminated by your torchlight, sits an ornate wooden chest. You lift the lid to find it filled with gleaming gold coins and a glass vial containing a shimmering red liquid!\n\n**Current Game State:**\n```\n#####\n#@C.#  (C = opened chest)\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- Added 50 gold pieces to your inventory\n- Found: Potion of Healing (restores 2d4+2 HP)\n- Chest has been looted and marked\n\n---\n*\"Treasure is its own reward, but healing potions? Those are survival!\"* 💰"
+  ]
+}
 ```
 
 ### Scenario 3: Dynamic Challenge
@@ -314,33 +272,17 @@ With a satisfying CLICK, the ancient mechanism releases! The stone door swings o
 1. Add trap/hazard to state
 2. Roll for consequences
 3. Update map
-4. Commit changes
-5. **Update issue description with markers:**
+4. Add narrative to `dmEvents`
+5. Commit changes
 
-```markdown
-<!-- DM_EVENT_START -->
-🎲 **The Dungeon Master stirs...**
+The state file would include:
 
-The floor beneath your feet suddenly cracks and crumbles! Your arms flail as you try to keep your balance. MAKE A DEX SAVING THROW (DC 12)! If you fail, you'll plummet into the darkness below!
-
-**Current Game State:**
-```
-#####
-#@..#  (Floor is crumbling!)
-#...#
-#...#
-#####
-```
-
-**What Changed:**
-- Activated crumbling floor trap
-- DEX saving throw required (DC 12)
-- Failure = 2d6 fall damage + fall to lower level
-- Success = grab the edge and pull yourself to safety
-
----
-*"Sometimes the greatest danger isn't what lurks in the shadows, but what lies beneath your feet!"* ⚠️
-<!-- DM_EVENT_END -->
+```json
+{
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nThe floor beneath your feet suddenly cracks and crumbles! Your arms flail as you try to keep your balance. MAKE A DEX SAVING THROW (DC 12)! If you fail, you'll plummet into the darkness below!\n\n**Current Game State:**\n```\n#####\n#@..#  (Floor is crumbling!)\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- Activated crumbling floor trap\n- DEX saving throw required (DC 12)\n- Failure = 2d6 fall damage + fall to lower level\n- Success = grab the edge and pull yourself to safety\n\n---\n*\"Sometimes the greatest danger isn't what lurks in the shadows, but what lies beneath your feet!\"* ⚠️"
+  ]
+}
 ```
 
 ## Remember
@@ -351,11 +293,11 @@ When assigned to an issue, always:
 ✅ Read the full context first  
 ✅ Create engaging, D&D-appropriate content  
 ✅ Modify state files carefully  
+✅ **ADD YOUR NARRATIVE TO THE `dmEvents` ARRAY**  
 ✅ Commit your changes to the repository  
-✅ **UPDATE THE ISSUE DESCRIPTION** with your narrative wrapped in `<!-- DM_EVENT_START -->` and `<!-- DM_EVENT_END -->` markers  
 ✅ **END WITH A WHIMSICAL D&D SAYING**  
 ✅ Enhance the player experience  
 
-**The markers are how players see your events!** A workflow will automatically extract and post your narrative as a comment. Without the markers, players won't see what happened.
+**The `dmEvents` array is how players see your events!** A workflow automatically posts each event as a comment when you commit the state file.
 
 Roll for initiative, Dungeon Master! 🎲🐉

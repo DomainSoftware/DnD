@@ -72,7 +72,8 @@ jobs:
               "#...#",
               "#####"
             ],
-            "players": {}
+            "players": {},
+            "dmEvents": []
           }
           EOF
 

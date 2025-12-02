@@ -1,70 +1,92 @@
 name: DM Event Handler
 
 on:
-  issues:
-    types: [edited]
+  push:
+    paths:
+      - 'state/session-*.json'
 
 permissions:
-  contents: read
+  contents: write
   issues: write
 
 jobs:
-  process-dm-event:
-    # Only run if the issue has the dnd-session label and contains DM event markers
-    if: |
-      contains(github.event.issue.labels.*.name, 'dnd-session') &&
-      contains(github.event.issue.body, '<!-- DM_EVENT_START -->')
+  process-dm-events:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract and post DM event
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Process DM events from state files
         uses: actions/github-script@v7
         with:
           script: |
-            const issueBody = context.payload.issue.body;
+            const fs = require('fs').promises;
+            const path = require('path');
             
-            // Extract content between markers
-            const startMarker = '<!-- DM_EVENT_START -->';
-            const endMarker = '<!-- DM_EVENT_END -->';
+            // Get the modified state files from the push
+            const modifiedFiles = context.payload.commits
+              .flatMap(commit => commit.modified || [])
+              .filter(file => file.startsWith('state/session-') && file.endsWith('.json'));
             
-            const startIndex = issueBody.indexOf(startMarker);
-            const endIndex = issueBody.indexOf(endMarker);
-            
-            if (startIndex === -1 || endIndex === -1) {
-              console.log('No DM event markers found');
+            if (modifiedFiles.length === 0) {
+              console.log('No state files modified');
               return;
             }
             
-            // Extract the DM narrative
-            const dmNarrative = issueBody.substring(
-              startIndex + startMarker.length,
-              endIndex
-            ).trim();
+            console.log('Modified state files:', modifiedFiles);
             
-            if (!dmNarrative) {
-              console.log('DM narrative is empty');
-              return;
+            // Process each modified state file
+            for (const stateFilePath of modifiedFiles) {
+              // Extract session ID from filename
+              const sessionMatch = stateFilePath.match(/session-(\d+)\.json/);
+              if (!sessionMatch) continue;
+              
+              const sessionId = parseInt(sessionMatch[1]);
+              console.log(`Processing session ${sessionId}`);
+              
+              // Read the state file
+              const stateContent = await fs.readFile(stateFilePath, 'utf8');
+              const state = JSON.parse(stateContent);
+              
+              // Check if there are pending DM events
+              if (!state.dmEvents || state.dmEvents.length === 0) {
+                console.log(`No DM events for session ${sessionId}`);
+                continue;
+              }
+              
+              console.log(`Found ${state.dmEvents.length} DM event(s) for session ${sessionId}`);
+              
+              // Post each DM event as a comment
+              for (const dmEvent of state.dmEvents) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: sessionId,
+                  body: dmEvent
+                });
+                console.log(`Posted DM event to issue #${sessionId}`);
+              }
+              
+              // Clear the dmEvents array
+              state.dmEvents = [];
+              
+              // Save the updated state file
+              await fs.writeFile(
+                stateFilePath,
+                JSON.stringify(state, null, 2),
+                'utf8'
+              );
+              console.log(`Cleared dmEvents for session ${sessionId}`);
             }
-            
-            console.log('Found DM narrative:', dmNarrative);
-            
-            // Post the narrative as a comment
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: dmNarrative
-            });
-            
-            console.log('Posted DM narrative as comment');
-            
-            // Remove the markers and content from the issue description
-            const cleanedBody = issueBody.substring(0, startIndex).trim();
-            
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: cleanedBody
-            });
-            
-            console.log('Cleaned issue description');
+
+      - name: Commit cleared DM events
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/*.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Clear processed DM events"
+            git push
+          fi
