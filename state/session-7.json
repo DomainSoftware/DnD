@@ -1,12 +1,37 @@
 {
   "sessionId": 7,
-  "turn": 1,
+  "turn": 2,
   "map": [
     "#####",
     "#...#",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#####"
   ],
-  "players": {}
+  "players": {
+    "ssuing8825": {
+      "x": 2,
+      "y": 2,
+      "status": "deceased",
+      "causeOfDeath": "Crushed and devoured by sentient welcome mat",
+      "deathTurn": 2
+    }
+  },
+  "encounters": [
+    {
+      "type": "cursed_welcome_mat",
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "status": "satiated",
+      "description": "A deceptively cheerful mat reading 'Welcome Adventurers!' now covered in ominous stains"
+    }
+  ],
+  "events": [
+    "Turn 2: DM Event - ssuing8825 materialized in the dungeon and was INSTANTLY killed by a carnivorous welcome mat"
+  ],
+  "lore": {
+    "cursedWelcomeMatLegend": "The dungeon's previous owner had a dark sense of humor. The welcome mat was enchanted to be... overly welcoming. Fatally so."
+  }
 }
