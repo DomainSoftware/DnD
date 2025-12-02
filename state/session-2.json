@@ -1,9 +1,9 @@
 {
   "sessionId": 2,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#...#",
     "#####"
@@ -11,7 +11,27 @@
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 1
+      "y": 1,
+      "status": "deceased",
+      "causeOfDeath": "Devoured by sentient chandelier mimic",
+      "deathTurn": 4
     }
+  },
+  "encounters": [
+    {
+      "type": "mimic_chandelier",
+      "position": {
+        "x": 2,
+        "y": 1
+      },
+      "status": "satiated",
+      "description": "A grotesque chandelier-shaped creature with crystalline teeth dripping with digestive fluids"
+    }
+  ],
+  "events": [
+    "Turn 4: DM Event - ssuing8825 was unexpectedly devoured by a chandelier mimic that dropped from the ceiling"
+  ],
+  "lore": {
+    "mimicChandelierLegend": "Local legends speak of cursed dungeon decorations that hunger for adventurer flesh. Few believed... until now."
   }
 }
