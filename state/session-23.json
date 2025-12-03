@@ -1,18 +1,22 @@
 {
   "sessionId": 23,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
     "#...#",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#####"
   ],
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 2
+      "y": 2,
+      "alive": false,
+      "deathReason": "Ancient trap - pierced by spectral spears"
     }
   },
-  "dmEvents": []
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\nAs **ssuing8825** cautiously explores the chamber, pacing back and forth in the dim torchlight, an ominous CLICK echoes through the stone corridors. Time seems to slow.\n\nThe ancient floor tiles beneath your feet begin to glow with an eerie crimson light, revealing long-dormant runes of a forgotten age. Before you can react, the very air around you shimmers and distorts!\n\n**WHOOOOSH!**\n\nFrom the ethereal void itself, three spectral spears materialize—ghostly weapons forged from pure magical energy, glowing with an otherworldly blue-white flame. They streak through the air with impossible speed!\n\nThe first spear pierces your shoulder with a burning cold that steals your breath. The second drives through your chest, and the third... the third finds its mark in your heart. The magical weapons feel both freezing cold and burning hot simultaneously.\n\nYou try to cry out, but no sound escapes your lips. The world grows dim. Your legs buckle beneath you as the spectral spears dissipate into wisps of ethereal smoke, leaving no physical wounds—yet you know, with absolute certainty, that your life force has been drained away.\n\nAs consciousness fades, you catch a glimpse of ancient writing appearing on the walls: *\"Here lies the price of wandering the forgotten halls without proper caution. May the gods have mercy on your soul.\"*\n\n**ssuing8825** collapses to the cold stone floor, eyes staring unseeing at the dungeon ceiling above. The ancient trap has claimed another victim.\n\n**Final Game State:**\n```\n#####\n#...#\n#.X.#  (X = fallen hero)\n#...#\n#####\n```\n\n**What Changed:**\n- Ancient pressure plate trap triggered by repeated movement\n- ssuing8825 has been slain by spectral spears\n- Player marked as deceased\n- Trap runes revealed on the map\n- The dungeon falls silent once more...\n\n---\n*\"In the depths of the dungeon, death comes swiftly to the unwary. May your next adventure be more fortunate, brave soul!\"* 💀⚔️"
+  ]
 }
