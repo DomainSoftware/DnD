@@ -14,5 +14,7 @@
       "y": 2
     }
   },
-  "dmEvents": []
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\n✨ **A GLORIOUS ENDING** ✨\n\nAs you stand in the heart of the dungeon, a brilliant golden light bursts forth from the ancient stones! The very walls begin to shimmer and sing with magical energy. You have completed your quest, brave adventurer!\n\n**The Bard's Song of Victory:**\n\n*In dungeons deep, oh what a sight!*\n*You moved with grace, both day and night!*\n*Through passages narrow, through chambers wide,*\n*With courage strong and honor as your guide!*\n\n*Now homeward bound with tales to tell,*\n*Of how you conquered, fought so well!*\n*The dragon sleeps, the treasure's won,*\n*Your glorious adventure now is done!*\n\n**Current Game State:**\n```\n#####\n#.✨.#\n#.@.#\n#.✨.#\n#####\n```\n\n**What Changed:**\n- ✨ Victory achieved! The dungeon acknowledges your triumph!\n- ✨ Golden light fills the chamber\n- 🏆 You have earned eternal glory in the annals of adventure!\n- 📜 Your name will be sung by bards for generations!\n\n**THE END**\n\n---\n*\"May your dice roll high and your adventures never end, brave hero!\"* 🎲⚔️✨"
+  ]
 }
