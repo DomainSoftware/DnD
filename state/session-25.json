@@ -1,18 +1,15 @@
 {
   "sessionId": 25,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
     "#...#",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#####"
   ],
-  "players": {
-    "ssuing8825": {
-      "x": 2,
-      "y": 2
-    }
-  },
-  "dmEvents": []
+  "players": {},
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs with mischievous glee...**\n\n---\n\n## 📖 *The Peculiar Demise of ssuing8825* 📖\n## *(A Tale in the Style of Dr. Seuss)*\n\n---\n\nOh, the places you'll go! said the wise Doctor Seuss,\nBut ssuing8825 went somewhere quite obtuse!\nThey moved to the north, then back to the south,\nWith barely a thought from their adventurous mouth!\n\n*\"I'll pace,\"* said our hero, *\"back and forth with great speed!*\n*No caution! No wisdom! No maps shall I need!\"*\nSo north and then south, then south and then north,\nThey danced and they pranced, going back and going forth!\n\nBut WAIT! cried the dungeon (if dungeons could speak),\n*\"This floor has a problem, a terrible leak!*\n*It's not meant for pacing, for dancing, for fun—*\n*It's rigged with a trap-door weighing one TON!\"*\n\nThe floor started creaking! The floor started groaning!\nAnd ssuing8825 kept mindlessly roaming!\nWith a CRACK and a SNAP and a WHOOP-DE-DO!\nThe trap door swung open—as trap doors will do!\n\nDown fell our hero through forty-two floors,\nPast goblins and dragons and old dungeon doors,\nPast Thing One and Thing Two (who were quite surprised),\nPast a Cat in a Helm with big armored eyes!\n\n*\"Oh my!\"* said the Cat, *\"That's no way to explore!*\n*You're supposed to read maps, not fall through the floor!*\n*You're supposed to check corners, roll dice for your life!*\n*Not waltz to your doom like you're free of all strife!\"*\n\nThey fell past a Lorax who spoke for the trees,\nWho said, *\"Unless someone like you stops and sees—*\n*That pacing won't help you, it just makes it worse—*\n*You'll end up quite dead in a Dr. Seuss verse!\"*\n\nBut too late, TOO LATE! cried the dungeon with dread,\nFor ssuing8825 landed right on their head!\nWith a SPLAT and a SPLOT and a THUD and a CRACK,\nThey landed in Whoville—and ain't coming back!\n\n---\n\n**Current Game State:**\n```\n#####\n#...#\n#.X.#  (X marks the spot of doom)\n#...#\n#####\n```\n\n---\n\n**What Changed:**\n- ssuing8825 paced north and south until the trap-door trigger activated\n- Character fell through 42 floors of increasingly improbable dimensions\n- Passed Thing One, Thing Two, the Cat in the Helm, and the Lorax\n- Final destination: Whoville (no respawn available)\n- Character has been removed from active players\n- An 'X' marks the deadly trap door location as a warning to future adventurers\n\n---\n\n**The Moral (as Dr. Seuss might say):**\n\n*So remember, dear players, when dungeons you roam:*\n*Don't pace back and forth like a garden gnome!*\n*Use* `/look` *to check corners!* `/move` *with great care!*\n*Or you'll fall to Whoville and be stuck living there!*\n\n*And if you find trap-doors (and you surely will),*\n*Don't trigger them thrice just to test if they're real!*\n*For dungeons are deadly and full of surprise—*\n*Ask ssuing8825... oh wait, they've demised!*\n\n---\n\n*\"The more that you read, the more things you will know. The more that you learn, the more places you'll go... except ssuing8825, who went straight down below!\"* 📚⬇️💀\n\n---\n\n**Game Status:** Session continues, but ssuing8825 has achieved a legendary death worthy of the Seussian Hall of Fame! 🏆\n\n*Roll a new character if you wish to continue your adventure!*"
+  ]
 }
