@@ -1,17 +1,19 @@
 {
   "sessionId": 23,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
     "#...#",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#####"
   ],
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 2
+      "y": 2,
+      "alive": false,
+      "deathReason": "Ancient trap - pierced by spectral spears"
     }
   },
   "dmEvents": []
