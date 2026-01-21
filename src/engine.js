@@ -66,6 +66,7 @@ function ensurePlayer(state, username) {
  * * = other players
  * # = walls
  * . = floor
+ * X = death trap (shown as floor when rendering)
  */
 function renderAsciiMap(state, username) {
   // Create a copy of the map as a 2D array of characters
@@ -73,6 +74,9 @@ function renderAsciiMap(state, username) {
   
   // Place all players on the map
   for (const [playerName, position] of Object.entries(state.players)) {
+    // Skip dead players
+    if (position.dead) continue;
+    
     const char = playerName === username ? '@' : '*';
     
     // Make sure position is valid
@@ -82,8 +86,8 @@ function renderAsciiMap(state, username) {
     }
   }
   
-  // Convert back to string
-  return mapCopy.map(row => row.join('')).join('\n');
+  // Convert back to string, showing death traps as floor tiles
+  return mapCopy.map(row => row.map(c => c === 'X' ? '.' : c).join('')).join('\n');
 }
 
 /**
@@ -142,11 +146,48 @@ function processCommand(state, username, command) {
     
     const targetTile = state.map[targetY][targetX];
     
-    if (targetTile === '.') {
+    if (targetTile === '.' || targetTile === 'X') {
       // Valid move
       player.x = targetX;
       player.y = targetY;
       state.turn++;
+      
+      // Check if player stepped on a death trap
+      if (targetTile === 'X') {
+        player.dead = true;
+        
+        // Dr. Seuss-style death narrative
+        const drSeussDeathNarrative = `
+Oh dear! Oh my! What a sight to behold!
+**${username}** stepped where they shouldn't have strolled!
+
+In Ohio they went, with a skip and a hop,
+But into a trap—SPLAT! BANG! KERPLOP!
+
+"I should not have gone there!" they cried with a shout,
+"I should not have ventured! I should have stayed out!"
+
+The trap door it opened, the floor fell away,
+And down, down they tumbled—what a terrible day!
+
+Through buckeye trees falling, past corn in the air,
+Past Cleveland, Toledo, through everywhere!
+
+They bounced and they bounded, they flipped and they flopped,
+Until at the bottom—THUD!—finally stopped.
+
+Now **${username}** lies still, in a Dr. Seuss way,
+They'll respawn tomorrow to adventure another day! 🎩📚
+
+*Game Over! You have died in the most whimsical fashion!*
+`;
+        
+        return {
+          state,
+          narrative: drSeussDeathNarrative.trim(),
+          asciiMap: renderAsciiMap(state, username)
+        };
+      }
       
       return {
         state,
