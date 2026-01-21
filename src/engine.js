@@ -42,17 +42,17 @@ function ensurePlayer(state, username) {
     let spawnX = centerX;
     let spawnY = centerY;
     
-    if (state.map[centerY][centerX] !== '.') {
-      // Find first floor tile
+    if (state.map[centerY][centerX] !== '.' && state.map[centerY][centerX] !== 'X') {
+      // Find first floor tile or death trap
       for (let y = 0; y < state.map.length; y++) {
         for (let x = 0; x < state.map[y].length; x++) {
-          if (state.map[y][x] === '.') {
+          if (state.map[y][x] === '.' || state.map[y][x] === 'X') {
             spawnX = x;
             spawnY = y;
             break;
           }
         }
-        if (state.map[spawnY][spawnX] === '.') break;
+        if (state.map[spawnY][spawnX] === '.' || state.map[spawnY][spawnX] === 'X') break;
       }
     }
     
