@@ -1,10 +1,10 @@
 {
   "sessionId": 21,
-  "turn": 3,
+  "turn": 4,
   "map": [
     "#####",
-    "#...#",
-    "#...#",
+    "#.M.#",
+    "#.@.#",
     "#...#",
     "#####"
   ],
@@ -12,7 +12,28 @@
     "ssuing8825": {
       "x": 2,
       "y": 2
+    },
+    "ssuing8825-mirror": {
+      "x": 2,
+      "y": 1
     }
   },
-  "dmEvents": []
+  "encounters": [
+    {
+      "type": "mirror-self",
+      "description": "A magical mirror duplicate of ssuing8825",
+      "position": {
+        "x": 2,
+        "y": 1
+      },
+      "friendly": true,
+      "effect": "Split by the Ax of Duplication"
+    }
+  ],
+  "lore": [
+    "The Ax of Duplication cleaved ssuing8825 into two beings - one of flesh, one of reflection"
+  ],
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs...**\n\n*As you wandered through the ancient corridors, pacing back and forth in uncertainty, your footsteps echoed off the cold stone walls. Then, without warning, a blinding flash erupts from the shadows!*\n\n**WHOOOOSH!**\n\n*A spectral double-sided ax, wreathed in ethereal blue flames, materializes from thin air and spins through the darkness with impossible speed. Before you can react, the legendary **Ax of Duplication** strikes true!*\n\n**SHHHHIIIIING!**\n\n*The world fractures like a shattered mirror. Reality itself seems to split in two. You feel a strange sensation—not pain, but... division. When the light fades and your vision clears, you look up and gasp in shock.*\n\n*Standing before you, exactly where the ax struck, is... YOU. Or rather, another you. A perfect mirror duplicate, born from the magic of the ancient weapon. Your mirror-self stares back with the same wide-eyed amazement.*\n\n*The Ax of Duplication vanishes as mysteriously as it appeared, its work complete.*\n\n**Current Game State:**\n```\n#####\n#.M.#  (M = Your Mirror Self)\n#.@.#  (@ = You)\n#...#\n#####\n```\n\n**What Changed:**\n- You have been magically split into two beings by the Ax of Duplication!\n- Your mirror-self appears at position (2, 1) - to the north\n- Both versions of you share the same consciousness and goals\n- The mirror-self is friendly and will cooperate with you\n- You can now potentially solve puzzles requiring two people!\n- Turn counter advanced to 4\n- Added magical encounter: \"Mirror Self\"\n- New lore recorded: The splitting of ssuing8825\n\n---\n*\"Two heads are better than one, but two yous? Now that's just showing off!\"* ✨"
+  ]
 }
