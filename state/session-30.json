@@ -1,9 +1,9 @@
 {
   "sessionId": 30,
-  "turn": 2,
+  "turn": 3,
   "map": [
     "#####",
-    "#...#",
+    "#.X.#",
     "#...#",
     "#...#",
     "#####"
@@ -11,8 +11,12 @@
   "players": {
     "ssuing8825": {
       "x": 2,
-      "y": 1
+      "y": 1,
+      "hp": 0,
+      "status": "deceased"
     }
   },
-  "dmEvents": []
+  "dmEvents": [
+    "🎲 **The Dungeon Master stirs... with rhymes most absurd!**\n\nOh my! Oh dear! What happened here?\nYou moved up north without a fear!\nBut WHOOSH and WOOSH and WHIRLY-WHEE,\nA Thing dropped down from the ceiling, you see!\n\nIt was purple and green with spots of bright red,\nWith tentacles twirling above your head!\nIt said with a grin (quite toothy and wide),\n\"I'm the Thing-That-Should-Not-Be-Inside!\"\n\n\"I dangle and dingle from dungeons so dark,\nI'm hunting for heroes to make my mark!\nWith a BOOP on your nose and a BONK on your head,\nI'm afraid, dear adventurer, you're quite thoroughly dead!\"\n\nIt wasn't with malice, or anger, or spite—\nThe Thing was just hungry (it hadn't eaten all night!).\nSo with giggles and wiggles and one final wheeze,\nYou departed this dungeon with the greatest of ease.\n\n**Current Game State:**\n```\n#####\n#.X.#  (X = You have ceased to be)\n#...#\n#...#\n#####\n```\n\n**What Changed:**\n- Encountered the dreaded Thing-That-Should-Not-Be-Inside\n- Player HP reduced to 0 (in the most whimsical way possible)\n- Status: Deceased (but in good spirits!)\n- The Thing-That-Should-Not-Be-Inside has returned to the ceiling\n- Your Ohio adventure has concluded in rhyme most absurd\n\n---\n*\"In dungeons deep where dangers hide, watch out for Things that shouldn't be inside! The DM rolled dice, the fate was sealed—now your character needs to be healed... or re-rolled!\"* 🎩✨"
+  ]
 }
